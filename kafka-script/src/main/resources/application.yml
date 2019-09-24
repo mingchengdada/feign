@@ -1,0 +1,39 @@
+kafka:
+  consumer:
+    servers: 10.181.0.136:9092
+    retries: 0
+    batchSize: 4096
+    bufferMemory: 40960
+    groupId: mc_test_01
+    autoCommitInterval: 5000
+    sessionTimeout: 10000
+    autoOffsetReset: earliest
+    concurrency: 1
+    pollTimeout: 3000
+  producer:
+    servers: 10.181.0.136:9092
+    retries: 0
+    batchSize: 16384
+    bufferMemory: 33554432
+    acks: all
+    partitionerClass: com.mc.kafkascript.KafkaUser.UserInfoPartitioner
+outclient:
+  maxConnTotal: 500
+  maxConnPerRoute: 200
+  maxIdleTime: 60
+  connectTimeoutMillis: 2000
+  readTimeoutMillis: 3000
+  retry: false
+  proxyIp: 10.181.8.22
+  proxyPort: 10060
+  isProxy: false
+  clientId: test
+  sign: test
+  url: http://10.150.201.137:80
+
+
+
+
+
+
+
