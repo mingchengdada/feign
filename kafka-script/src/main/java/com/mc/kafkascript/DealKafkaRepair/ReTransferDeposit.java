@@ -6,8 +6,10 @@ import com.mc.kafkascript.feign.DepositPersonalBookResp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
@@ -25,6 +27,8 @@ import java.io.*;
 public class ReTransferDeposit {
     @Autowired
     private Deposit deposit;
+    @Autowired
+    private RestTemplate restTemplate;
 
     @RequestMapping(method = RequestMethod.GET,value = "/reSend")
     public boolean hand() throws IOException {
@@ -37,6 +41,25 @@ public class ReTransferDeposit {
                 DepositPersonalBookReq req = JSON.parseObject(msg, DepositPersonalBookReq.class);
                 DepositPersonalBookResp resp =  deposit.deposit(req);
                 log.error("---重发正常---,resp is {}",resp);
+            } catch (Exception e) {
+                log.error("---重发异常---,error is {}",e);
+            }
+        }
+        return true;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/reSend1")
+    public boolean hand1() throws IOException {
+        BufferedReader fileInputStream = new BufferedReader(new FileReader(new File(System
+                .getProperty("user.dir")+"/reSend.txt")));
+        //直接是入参
+        String msg;
+        while((msg = fileInputStream.readLine()) != null) {
+            try {
+                DepositPersonalBookReq req = JSON.parseObject(msg, DepositPersonalBookReq.class);
+                ResponseEntity<DepositPersonalBookResp> response = restTemplate
+                        .postForEntity("uti",req,DepositPersonalBookResp.class);
+                log.error("---重发正常---,resp is {}",response.getBody());
             } catch (Exception e) {
                 log.error("---重发异常---,error is {}",e);
             }

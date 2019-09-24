@@ -1,28 +1,24 @@
-/*
 package com.mc.kafkascript.KafkaUser;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-*/
 /**
  * 项目名称:   pinkstone
  * 包:        com.mc.kafkascript.KafkaUser
  * 类名称:     KafkaConsume
  * 类描述:     类功能描述
  * 创建人:     mc
- * 创建时间:   2019/9/23 10:02
- *//*
+ * 创建时间:   2019/9/23 10:02*/
+
 
 @Component
 @Slf4j
@@ -45,11 +41,9 @@ public class KafkaConsume {
         } catch (Exception e) {
             log.error(e.toString());
         } finally {
-            */
-/*避免重复消费调用*//*
+           //避免重复消费调用
 
             ack.acknowledge();
         }
     }
 }
-*/
