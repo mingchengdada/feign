@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * 创建人:     mc
  * 创建时间:   2019/9/23 17:09
  */
-@FeignClient(name = "deposit",configuration = FeignConfig.class,url = "http://10.181.0.97:30008/pinkstone-personalbook")
-/*
+// @FeignClient(name = "deposit",configuration = FeignConfig.class,url = "http://10.181.0.97:30008/pinkstone-personalbook")
 @FeignClient(name = "deposit",configuration = FeignConfig.class,url = "http://10.21.19.82:8523")
-*/
 
 public interface Deposit {
         @RequestMapping(value = "/account/depositPersonalBook",method = RequestMethod.POST,

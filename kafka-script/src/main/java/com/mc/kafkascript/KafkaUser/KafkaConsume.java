@@ -23,8 +23,8 @@ import java.util.List;
 @Component
 @Slf4j
 public class KafkaConsume {
-    @org.springframework.kafka.annotation.KafkaListener(topics = {"acct-dealException"}, containerFactory =
-            "kafkaListenerContainerFactory")
+   /* @org.springframework.kafka.annotation.KafkaListener(topics = {"acct-dealException"}, containerFactory =
+            "kafkaListenerContainerFactory")*/
     public void consume(List<ConsumerRecord<String, String>> list, Acknowledgment ack) throws IOException {
         FileOutputStream fileOutputStream = new FileOutputStream(new File(System.getProperty("user.dir")
                 + File.separator + "dealException.txt"), true);

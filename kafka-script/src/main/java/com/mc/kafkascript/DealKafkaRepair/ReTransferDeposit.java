@@ -58,7 +58,7 @@ public class ReTransferDeposit {
             try {
                 DepositPersonalBookReq req = JSON.parseObject(msg, DepositPersonalBookReq.class);
                 ResponseEntity<DepositPersonalBookResp> response = restTemplate
-                        .postForEntity("uti",req,DepositPersonalBookResp.class);
+                        .postForEntity("http://10.21.19.82:8523/account/depositPersonalBook",req,DepositPersonalBookResp.class);
                 log.error("---重发正常---,resp is {}",response.getBody());
             } catch (Exception e) {
                 log.error("---重发异常---,error is {}",e);
