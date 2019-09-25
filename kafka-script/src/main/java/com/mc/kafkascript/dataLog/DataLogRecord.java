@@ -6,7 +6,7 @@ import java.sql.*;
  * 项目名称:   pinkstone
  * 包:        com.mc.kafkascript.dataLog
  * 类名称:     DataLogRecord
- * 类描述:     类功能描述
+ * 类描述:     处理日志监控查询类
  * 创建人:     mc
  * 创建时间:   2019/9/23 14:54
  */
