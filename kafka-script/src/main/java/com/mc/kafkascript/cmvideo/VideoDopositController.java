@@ -66,6 +66,9 @@ public class VideoDopositController {
             return false;
         }
         log.error("视讯侧用户信息:{}",userInfoResponse.getBody());
+        if(null == userInfoResponse.getBody().getUserInfo()) {
+            return false;
+        }
         String userId =  userInfoResponse.getBody().getUserInfo().getUserId();
         // 加子公司编码
         userId = userId.startsWith("013U") ? userId : "013U" + userId;
@@ -97,7 +100,7 @@ public class VideoDopositController {
         personDeposit.setBillType("1");
         personDeposit.setRechargeReason("用户投诉补充通看券".concat(date));
         personDeposit.setEffectiveDate("");
-        personDeposit.setExpiryDate(afterMothDay);
+        personDeposit.setExpiryDate(afterMothDay.substring(0,8)+"235959");
         personDeposit.setInnerId("complaint_handle_"+userId);
         personDeposit.setExternalId("");
         personDeposit.setCardBatchId("");
@@ -115,12 +118,27 @@ public class VideoDopositController {
                 .postForEntity("http://10.181.0.97:30008/pinkstone-personalbook/account/depositPersonalBook"
                 ,depositPersonalBookReq,DepositPersonalBookResp.class);
 
-        if(userInfoResponse == null && userInfoResponse.getBody() == null) {
+        if(resp == null && resp.getBody() == null) {
             return false;
         }
+        int count = 1;
+        while("1620000196".equals(resp.getBody().getResult().getResultCode())
+                || "1620000197".equals(resp.getBody().getResult().getResultCode())) {
+            personDeposit.setInnerId("complaint_handle_"+userId+"_"+count);
+            resp = restTemplate
+                    .postForEntity("http://10.181.0.97:30008/pinkstone-personalbook/account/depositPersonalBook"
+                            ,depositPersonalBookReq,DepositPersonalBookResp.class);
+            count ++;
+        }
         TransactionFlow transactionFlow = resp.getBody().getTransactionFlow();
-        log.error("充值通看券成功，充值流水:{},返回码:{}",JSON.toJSONString(transactionFlow),userInfoResponse
-                .getBody().getResult().getResultCode());
+        if("1600000000".equals(resp.getBody().getResult().getResultCode())) {
+            log.error("充值通看券成功，充值流水:{},返回码:{}", JSON.toJSONString(transactionFlow), resp
+                    .getBody().getResult().getResultCode());
+        } else {
+            log.error("充值通看券失败，充值流水:{},返回码:{}", JSON.toJSONString(transactionFlow), resp
+                    .getBody().getResult().getResultCode());
+            return false;
+        }
         return true;
     }
 }
