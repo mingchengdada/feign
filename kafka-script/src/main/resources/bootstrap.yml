@@ -9,3 +9,11 @@ eureka:
   server:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 5000
+
+outClient:
+  maxConnTotal: 500
+  maxConnPerRoute: 200
+  maxIdleTime: 60
+  connectTimeoutMillis: 20000
+  readTimeoutMillis: 20000
+  retry: false
